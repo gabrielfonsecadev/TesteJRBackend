@@ -18,78 +18,42 @@ namespace apiToDo.Models
 
         public List<TarefaDTO> ListarTarefas()
         {
-            try
-            {
-                return _listaTarefas;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return _listaTarefas;
         }
 
         public List<TarefaDTO> InserirTarefa(TarefaDTO request)
         {
-            try
-            {
-                _listaTarefas.Add(request);
-                return _listaTarefas;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            _listaTarefas.Add(request);
+            return _listaTarefas;
         }
 
         public List<TarefaDTO> DeletarTarefa(int ID_TAREFA)
         {
-            try
-            {
-                // Chama método privado pra retornar a tarefa se ela existir
-                var tarefa = RetornaTarefaOuExcecao(ID_TAREFA);
+            // Chama método privado pra retornar a tarefa se ela existir
+            var tarefa = RetornaTarefaOuExcecao(ID_TAREFA);
 
-                // Remove o objeto encontrado caso exista
-                _listaTarefas.Remove(tarefa);
+            // Remove o objeto encontrado caso exista
+            _listaTarefas.Remove(tarefa);
 
-                // Retorna a lista atualizada após a remoção
-                return _listaTarefas;
-            }
-            catch (Exception)
-            {
-                // Relança a exceção pra ser tratada pelo Controller, que decide o status HTTP
-                throw;
-            }
+            // Retorna a lista atualizada após a remoção
+            return _listaTarefas;
         }
 
         public TarefaDTO BuscarTarefaPorId(int id)
         {
-            try
-            {
-                var tarefa = RetornaTarefaOuExcecao(id);
+            var tarefa = RetornaTarefaOuExcecao(id);
 
-                return tarefa;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return tarefa;
         }
 
         public List<TarefaDTO> AtualizarTarefa(TarefaDTO request)
         {
-            try
-            {
-                var tarefa = RetornaTarefaOuExcecao(request.ID_TAREFA);
+            var tarefa = RetornaTarefaOuExcecao(request.ID_TAREFA);
 
-                // Atualiza apenas o campo DS_TAREFA com o valor enviado no request
-                tarefa.DS_TAREFA = request.DS_TAREFA;
+            // Atualiza apenas o campo DS_TAREFA com o valor enviado no request
+            tarefa.DS_TAREFA = request.DS_TAREFA;
 
-                return _listaTarefas;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return _listaTarefas;
         }
 
         // Por utilizar a mesma lógica em vários lugares, criei um método privado pra verificar se a tarefa existe

@@ -14,7 +14,7 @@ namespace apiToDo.Controllers
 
         // GET é o verbo correto para leitura
         // Authorize removido pois não existe autenticação no projeto
-        [HttpGet("ListarTarefas")]
+        [HttpGet]
         public ActionResult<List<TarefaDTO>> ListarTarefas()
         {
             try
@@ -28,8 +28,8 @@ namespace apiToDo.Controllers
             }
         }
 
-        // Nesse caso a nomeclatura InserirTarefas é só pra organização, porque o verbo POST já define a ação de criar. Vou manter pra seguir o padrão do projeto
-        [HttpPost("InserirTarefas")]
+        // Nesse caso a nomeclatura InserirTarefas é só pra organização, porque o verbo POST já define a ação de criar.
+        [HttpPost]
         public ActionResult<List<TarefaDTO>> InserirTarefas([FromBody] TarefaDTO request)
         {
             try
@@ -44,7 +44,7 @@ namespace apiToDo.Controllers
         }
 
         // DELETE é o verbo correto para remoção
-        [HttpDelete("DeletarTarefa")]
+        [HttpDelete]
         public ActionResult<List<TarefaDTO>> DeleteTask([FromQuery] int ID_TAREFA)
         {
             try
@@ -59,7 +59,7 @@ namespace apiToDo.Controllers
         }
 
         // Buscar tarefa por ID com parâmetro de rota (id)
-        [HttpGet("BuscarTarefaPorId/{id}")]
+        [HttpGet("{id}")]
         public ActionResult<TarefaDTO> BuscarTarefaPorId(int id)
         {
             try
@@ -75,7 +75,7 @@ namespace apiToDo.Controllers
         }
 
         // Atualiza a tarefa de acordo com o id.
-        [HttpPut("AtualizarTarefa")]
+        [HttpPut]
         public ActionResult<List<TarefaDTO>> AtualizarTarefa([FromBody] TarefaDTO request)
         {
             try
