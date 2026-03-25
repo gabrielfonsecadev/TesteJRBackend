@@ -28,7 +28,6 @@ namespace apiToDo.Models
             }
         }
 
-
         public List<TarefaDTO> InserirTarefa(TarefaDTO request)
         {
             try
@@ -41,17 +40,29 @@ namespace apiToDo.Models
                 throw ex;
             }
         }
-        public void DeletarTarefa(int ID_TAREFA)
+
+        public List<TarefaDTO> DeletarTarefa(int ID_TAREFA)
         {
             try
             {
-                List<TarefaDTO> lstResponse = lstTarefas();
-                var Tarefa = lstResponse.FirstOrDefault(x => x.ID_TAREFA == ID_TAREFA);
-                TarefaDTO Tarefa2 = lstResponse.Where(x=> x.ID_TAREFA == Tarefa.ID_TAREFA).FirstOrDefault();
-                lstResponse.Remove(Tarefa2);
+                // Busca a primeira tarefa onde o ID_TAREFA é igual ao valor de ID_TAREFA
+                // Se não encontrar nenhuma retorna null
+                var tarefa = _listaTarefas.FirstOrDefault(x => x.ID_TAREFA == ID_TAREFA);
+
+                // Verifica se a tarefa foi encontrada
+                // Caso o ID_TAREFA não exista na lista, lança um erro de Key não encontrada
+                if (tarefa == null)
+                    throw new KeyNotFoundException($"Tarefa com ID {ID_TAREFA} não encontrada.");
+
+                // Remove o objeto encontrado caso exista
+                _listaTarefas.Remove(tarefa);
+
+                // Retorna a lista atualizada após a remoção
+                return _listaTarefas;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                // Relança a exceção pra ser tratada pelo Controller, que decide o status HTTP
                 throw ex;
             }
         }

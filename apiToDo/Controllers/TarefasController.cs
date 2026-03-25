@@ -28,7 +28,7 @@ namespace apiToDo.Controllers
             }
         }
 
-        //Nesse caso a nomeclatura InserirTarefas é só pra organização, porque o verbo POST já define a ação de criar. Vou manter pra seguir o padrão do projeto.
+        // Nesse caso a nomeclatura InserirTarefas é só pra organização, porque o verbo POST já define a ação de criar. Vou manter pra seguir o padrão do projeto
         [HttpPost("InserirTarefas")]
         public ActionResult<List<TarefaDTO>> InserirTarefas([FromBody] TarefaDTO request)
         {
@@ -43,18 +43,25 @@ namespace apiToDo.Controllers
             }
         }
 
-        [HttpGet("DeletarTarefa")]
-        public ActionResult DeleteTask([FromQuery] int ID_TAREFA)
+        // O mesmo vale para DeletarTarefa
+        // DELETE é o verbo correto para remoção
+        [HttpDelete("DeletarTarefa")]
+        public ActionResult<List<TarefaDTO>> DeleteTask([FromQuery] int ID_TAREFA)
         {
             try
             {
-
-                return StatusCode(200);
+                var lista = _tarefas.DeletarTarefa(ID_TAREFA);
+                return Ok(lista);
             }
-
+            catch (KeyNotFoundException ex)
+            {
+                // Tratamento específico para ID inexistente, ex: código 1458
+                // Retorna 404 Not Found
+                return NotFound(new { msg = ex.Message });
+            }
             catch (Exception ex)
             {
-                return StatusCode(400, new { msg = $"Ocorreu um erro em sua API {ex.Message}" });
+                return StatusCode(500, new { msg = $"Ocorreu um erro ao deletar a tarefa: {ex.Message}" });
             }
         }
     }
