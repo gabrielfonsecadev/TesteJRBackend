@@ -45,14 +45,8 @@ namespace apiToDo.Models
         {
             try
             {
-                // Busca a primeira tarefa onde o ID_TAREFA é igual ao valor de ID_TAREFA
-                // Se não encontrar nenhuma retorna null
-                var tarefa = _listaTarefas.FirstOrDefault(x => x.ID_TAREFA == ID_TAREFA);
-
-                // Verifica se a tarefa foi encontrada
-                // Caso o ID_TAREFA não exista na lista, lança um erro de Key não encontrada
-                if (tarefa == null)
-                    throw new KeyNotFoundException($"Tarefa com ID {ID_TAREFA} não encontrada.");
+                // Chama método privado pra retornar a tarefa se ela existir
+                var tarefa = RetornaTarefaOuExcecao(ID_TAREFA);
 
                 // Remove o objeto encontrado caso exista
                 _listaTarefas.Remove(tarefa);
@@ -65,6 +59,35 @@ namespace apiToDo.Models
                 // Relança a exceção pra ser tratada pelo Controller, que decide o status HTTP
                 throw ex;
             }
+        }
+
+        public TarefaDTO BuscarTarefaPorId(int id)
+        {
+            try
+            {
+                var tarefa = RetornaTarefaOuExcecao(id);
+
+                return tarefa;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        // Por utilizar a mesma lógica em vários lugares, criei um método privado pra verificar se a tarefa existe
+        private TarefaDTO RetornaTarefaOuExcecao(int id)
+        {
+            // Busca a primeira tarefa onde o ID_TAREFA é igual ao valor de ID_TAREFA
+            // Se não encontrar nenhuma retorna null
+            var tarefa = _listaTarefas.FirstOrDefault(x => x.ID_TAREFA == id);
+
+            // Verifica se a tarefa foi encontrada
+            // Caso o ID_TAREFA não exista na lista, lança um erro de Key não encontrada
+            if (tarefa == null)
+                throw new KeyNotFoundException($"Tarefa com ID {id} não encontrada.");
+
+            return tarefa;
         }
     }
 }

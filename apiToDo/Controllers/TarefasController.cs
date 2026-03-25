@@ -64,5 +64,26 @@ namespace apiToDo.Controllers
                 return StatusCode(500, new { msg = $"Ocorreu um erro ao deletar a tarefa: {ex.Message}" });
             }
         }
+
+        // Buscar tarefa por ID com parâmetro de rota (id)
+        [HttpGet("{id}")]
+        public ActionResult<TarefaDTO> BuscarTarefaPorId(int id)
+        {
+            try
+            {
+                var tarefa = _tarefas.BuscarTarefaPorId(id);
+
+                return Ok(tarefa);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { msg = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { msg = $"Ocorreu um erro ao buscar a tarefa: {ex.Message}" });
+            }
+        }
+
     }
 }
