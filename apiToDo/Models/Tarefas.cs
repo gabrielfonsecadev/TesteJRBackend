@@ -7,33 +7,22 @@ namespace apiToDo.Models
 {
     public class Tarefas
     {
+        // Lista estática para simular persistência em memória durante a execução da aplicação.
+        // Como não há banco de dados, o estado é mantido enquanto o servidor estiver rodando.
+        private static List<TarefaDTO> _listaTarefas = new List<TarefaDTO>
+        {
+            new TarefaDTO { ID_TAREFA = 1, DS_TAREFA = "Fazer Compras" },
+            new TarefaDTO { ID_TAREFA = 2, DS_TAREFA = "Fazer Atividade Faculdade" },
+            new TarefaDTO { ID_TAREFA = 3, DS_TAREFA = "Subir Projeto de Teste no GitHub" }
+        };
+
         public List<TarefaDTO> lstTarefas()
         {
             try
             {
-                List<TarefaDTO> lstTarefas = new List<TarefaDTO>();
-
-                lstTarefas.Add(new TarefaDTO
-                {
-                    ID_TAREFA = 1,
-                    DS_TAREFA = "Fazer Compras"
-                });
-
-                lstTarefas.Add(new TarefaDTO
-                {
-                    ID_TAREFA = 2,
-                    DS_TAREFA = "Fazer Atividad Faculdade"
-                });
-
-                lstTarefas.Add(new TarefaDTO
-                {
-                    ID_TAREFA = 3,
-                    DS_TAREFA = "Subir Projeto de Teste no GitHub"
-                });
-
-                return new List<TarefaDTO>();
+                return _listaTarefas;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }

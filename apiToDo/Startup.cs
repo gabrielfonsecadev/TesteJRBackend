@@ -26,6 +26,15 @@ namespace apiToDo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("SwaggerPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -44,9 +53,13 @@ namespace apiToDo
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "apiToDo v1"));
             }
 
-            app.UseHttpsRedirection();
+            if (!env.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
+            app.UseCors("SwaggerPolicy");
 
             app.UseAuthorization();
 

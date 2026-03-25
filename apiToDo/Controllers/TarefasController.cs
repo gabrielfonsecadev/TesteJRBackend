@@ -1,8 +1,8 @@
 ﻿using apiToDo.DTO;
 using apiToDo.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace apiToDo.Controllers
 {
@@ -10,19 +10,21 @@ namespace apiToDo.Controllers
     [Route("[controller]")]
     public class TarefasController : ControllerBase
     {
-        [Authorize]
-        [HttpPost("lstTarefas")]
-        public ActionResult lstTarefas()
+        private readonly Tarefas _tarefas = new Tarefas();
+
+        // GET é o verbo correto para leitura
+        // Authorize removido pois não existe autenticação no projeto
+        [HttpGet]
+        public ActionResult<List<TarefaDTO>> lstTarefas()
         {
             try
             {
-              
-                return StatusCode(200);
+                var lista = _tarefas.lstTarefas();
+                return Ok(lista);
             }
-
             catch (Exception ex)
             {
-                return StatusCode(400, new { msg = $"Ocorreu um erro em sua API {ex.Message}"});
+                return StatusCode(500, new { msg = $"Ocorreu um erro ao listar as tarefas: {ex.Message}" });
             }
         }
 
