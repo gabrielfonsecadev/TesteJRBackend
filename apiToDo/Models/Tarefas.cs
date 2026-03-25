@@ -16,7 +16,7 @@ namespace apiToDo.Models
             new TarefaDTO { ID_TAREFA = 3, DS_TAREFA = "Subir Projeto de Teste no GitHub" }
         };
 
-        public List<TarefaDTO> lstTarefas()
+        public List<TarefaDTO> ListarTarefas()
         {
             try
             {
@@ -68,6 +68,23 @@ namespace apiToDo.Models
                 var tarefa = RetornaTarefaOuExcecao(id);
 
                 return tarefa;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<TarefaDTO> AtualizarTarefa(TarefaDTO request)
+        {
+            try
+            {
+                var tarefa = RetornaTarefaOuExcecao(request.ID_TAREFA);
+
+                // Atualiza apenas o campo DS_TAREFA com o valor enviado no request
+                tarefa.DS_TAREFA = request.DS_TAREFA;
+
+                return _listaTarefas;
             }
             catch (Exception ex)
             {

@@ -14,12 +14,12 @@ namespace apiToDo.Controllers
 
         // GET é o verbo correto para leitura
         // Authorize removido pois não existe autenticação no projeto
-        [HttpGet]
-        public ActionResult<List<TarefaDTO>> lstTarefas()
+        [HttpGet("ListarTarefas")]
+        public ActionResult<List<TarefaDTO>> ListarTarefas()
         {
             try
             {
-                var lista = _tarefas.lstTarefas();
+                var lista = _tarefas.ListarTarefas();
                 return Ok(lista);
             }
             catch (Exception ex)
@@ -43,7 +43,6 @@ namespace apiToDo.Controllers
             }
         }
 
-        // O mesmo vale para DeletarTarefa
         // DELETE é o verbo correto para remoção
         [HttpDelete("DeletarTarefa")]
         public ActionResult<List<TarefaDTO>> DeleteTask([FromQuery] int ID_TAREFA)
@@ -66,7 +65,7 @@ namespace apiToDo.Controllers
         }
 
         // Buscar tarefa por ID com parâmetro de rota (id)
-        [HttpGet("{id}")]
+        [HttpGet("BuscarTarefaPorId/{id}")]
         public ActionResult<TarefaDTO> BuscarTarefaPorId(int id)
         {
             try
@@ -85,5 +84,23 @@ namespace apiToDo.Controllers
             }
         }
 
+        // Atualiza a tarefa de acordo com o id.
+        [HttpPut("AtualizarTarefa")]
+        public ActionResult<List<TarefaDTO>> AtualizarTarefa([FromBody] TarefaDTO request)
+        {
+            try
+            {
+                var lista = _tarefas.AtualizarTarefa(request);
+                return Ok(lista);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { msg = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { msg = $"Ocorreu um erro ao atualizar a tarefa: {ex.Message}" });
+            }
+        }
     }
 }
