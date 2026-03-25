@@ -28,20 +28,18 @@ namespace apiToDo.Controllers
             }
         }
 
+        //Nesse caso a nomeclatura InserirTarefas é só pra organização, porque o verbo POST já define a ação de criar. Vou manter pra seguir o padrão do projeto.
         [HttpPost("InserirTarefas")]
-        public ActionResult InserirTarefas([FromBody] TarefaDTO Request)
+        public ActionResult<List<TarefaDTO>> InserirTarefas([FromBody] TarefaDTO request)
         {
             try
             {
-
-                return StatusCode(200);
-
-
+                var lista = _tarefas.InserirTarefa(request);
+                return Ok(lista);
             }
-
             catch (Exception ex)
             {
-                return StatusCode(400, new { msg = $"Ocorreu um erro em sua API {ex.Message}" });
+                return StatusCode(500, new { msg = $"Ocorreu um erro ao inserir a tarefa: {ex.Message}" });
             }
         }
 
