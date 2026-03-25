@@ -22,9 +22,9 @@ namespace apiToDo.Models
             {
                 return _listaTarefas;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -35,9 +35,9 @@ namespace apiToDo.Models
                 _listaTarefas.Add(request);
                 return _listaTarefas;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -54,10 +54,10 @@ namespace apiToDo.Models
                 // Retorna a lista atualizada após a remoção
                 return _listaTarefas;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Relança a exceção pra ser tratada pelo Controller, que decide o status HTTP
-                throw ex;
+                throw;
             }
         }
 
@@ -69,9 +69,9 @@ namespace apiToDo.Models
 
                 return tarefa;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -86,9 +86,9 @@ namespace apiToDo.Models
 
                 return _listaTarefas;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 

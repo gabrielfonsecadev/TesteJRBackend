@@ -24,7 +24,7 @@ namespace apiToDo.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { msg = $"Ocorreu um erro ao listar as tarefas: {ex.Message}" });
+                return HandleException(ex, "listar as tarefas");
             }
         }
 
@@ -39,7 +39,7 @@ namespace apiToDo.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { msg = $"Ocorreu um erro ao inserir a tarefa: {ex.Message}" });
+                return HandleException(ex, "inserir a tarefa");
             }
         }
 
@@ -52,15 +52,9 @@ namespace apiToDo.Controllers
                 var lista = _tarefas.DeletarTarefa(ID_TAREFA);
                 return Ok(lista);
             }
-            catch (KeyNotFoundException ex)
-            {
-                // Tratamento específico para ID inexistente, ex: código 1458
-                // Retorna 404 Not Found
-                return NotFound(new { msg = ex.Message });
-            }
             catch (Exception ex)
             {
-                return StatusCode(500, new { msg = $"Ocorreu um erro ao deletar a tarefa: {ex.Message}" });
+                return HandleException(ex, "deletar a tarefa");
             }
         }
 
@@ -74,13 +68,9 @@ namespace apiToDo.Controllers
 
                 return Ok(tarefa);
             }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(new { msg = ex.Message });
-            }
             catch (Exception ex)
             {
-                return StatusCode(500, new { msg = $"Ocorreu um erro ao buscar a tarefa: {ex.Message}" });
+                return HandleException(ex, "buscar a tarefa");
             }
         }
 
@@ -93,14 +83,19 @@ namespace apiToDo.Controllers
                 var lista = _tarefas.AtualizarTarefa(request);
                 return Ok(lista);
             }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(new { msg = ex.Message });
-            }
             catch (Exception ex)
             {
-                return StatusCode(500, new { msg = $"Ocorreu um erro ao atualizar a tarefa: {ex.Message}" });
+                return HandleException(ex, "atualizar a tarefa");
             }
+        }
+
+        // Método privado para tratar exceções, pois estava repetindo os blocos try catch.
+        private ActionResult HandleException(Exception ex, string contexto)
+        {
+            if (ex is KeyNotFoundException)
+                return NotFound(new { msg = ex.Message });
+
+            return StatusCode(500, new { msg = $"Erro ao {contexto}" });
         }
     }
 }
